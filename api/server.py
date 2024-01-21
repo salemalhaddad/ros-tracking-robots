@@ -52,6 +52,31 @@ def static_files(filename):
     """Serve static files (including images) from the same directory."""
     return send_from_directory(app._static_folder, filename)
 
+@app.route('/All', methods=['GET'])
+def get_all_locations():
+    """Returns a JSON object containing the locations of all robots."""
+    all_locations = {}
+    # List all CSV files in the current directory
+    csv_files = [f for f in os.listdir() if f.endswith('_loc.csv')]
+
+    for csv_file in csv_files:
+        robot_name = csv_file.replace('_loc.csv', '')
+        x_coords, y_coords = [], []
+
+        with open(csv_file, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                _, x, y = row
+                x_coords.append(float(x))
+                y_coords.append(float(y))
+
+        all_locations[robot_name] = {
+            'x_coords': x_coords,
+            'y_coords': y_coords
+        }
+
+    return jsonify(all_locations)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
