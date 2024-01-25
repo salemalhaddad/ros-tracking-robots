@@ -55,7 +55,7 @@ You can visit http://[EC2 Server Public IP]/5000/[robot_name]
 Returns a web page with the plot graph of [robot_name]
 
 ### POST `/[robot_name]/[x-coordinates]/[y-coordinates]`
-Tracks robot's new coordinates and adds to the plot graph in `/[robot_name]/`.
+Tracks robot's new coordinates and adds to the plot graph in `/[robot_name]`.
 
 ### GET `/All`
 Returns all of the coordinates of the different robots created so far in the server in JSON format.
