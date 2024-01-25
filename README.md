@@ -12,7 +12,7 @@ This document provides instructions on how to set up and use the ROS project for
 ## Setup and Running Instructions
 
 ### 0. Run EC2 Server
-Connect to EC2 Server
+Connect to EC2 Server and run flask server
 
 ### 1. Start ROS Core
 Open a terminal and start the ROS master node:
