@@ -50,6 +50,16 @@ Check your Flask server's endpoint to verify that it's receiving and correctly p
 ### 7. Check plot images for robots created
 You can visit http://[EC2 Server Public IP]/5000/[robot_name]
 
+## API Endpoints
+### GET `/[robot_name]`
+Returns a web page with the plot graph of [robot_name]
+
+### POST `/[robot_name]/[x-coordinates]/[y-coordinates]`
+Tracks robot's new coordinates and adds to the plot graph in `/[robot_name]/`.
+
+### GET `/All`
+Returns all of the coordinates of the different robots created so far in the server in JSON format.
+
 ## Troubleshooting
 
 - Ensure all ROS nodes are running in the correct order.
