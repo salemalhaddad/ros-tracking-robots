@@ -47,6 +47,9 @@ Your custom ROS node will track the movements of the TurtleSim robots and send t
 ### 6. Verify Data on Flask Server
 Check your Flask server's endpoint to verify that it's receiving and correctly processing the data from your ROS node.
 
+### 7. Check plot images for robots created
+You can visit http://[EC2 Server Public IP]/5000/[robot_name]
+
 ## Troubleshooting
 
 - Ensure all ROS nodes are running in the correct order.
