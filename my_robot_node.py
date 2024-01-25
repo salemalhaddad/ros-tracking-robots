@@ -1,19 +1,15 @@
-/usr/bin/env python3
+#!/usr/bin/env python3
 import rospy
-from std_msgs.msg import String
-import requests
-import time
 from turtlesim.msg import Pose
-
+import requests
 
 # Configuration
-# robot_name = "my_robot"
 server_address = "http://13.49.49.209:5000/"
 api_delay = 1  # Delay in seconds
 
 def send_post_request(x, y, robot_name):
     """Sends a POST request to the server with the robot's coordinates."""
-    url = f"{server_address}/{robot_name}/{x}/{y}"
+    url = f"{server_address}{robot_name}/{x}/{y}"
     try:
         response = requests.post(url)
         if response.status_code == 200:
@@ -24,28 +20,26 @@ def send_post_request(x, y, robot_name):
         rospy.logerr(f"Request failed: {e}")
 
 def robot_callback(data, robot_name):
-    """Callback function for processing data."""
+    """Callback function for processing TurtleSim's pose data."""
     x = data.x
     y = data.y
-
+    rospy.loginfo(f"Callback received data: x={x}, y={y}, for robot: {robot_name}")
     send_post_request(x, y, robot_name)
 
 def robot_listener():
     rospy.init_node('robot_tracking_node', anonymous=True)
 
-    # Get parameters
+    # Get the turtle number and robot name parameters
     turtle_number = rospy.get_param('~turtle_number', 1)
-    turtle_topic = f"/turtle{turtle_number}/pose"
     robot_name = rospy.get_param('~robot_name', f'my_turtle_{turtle_number}')
+    turtle_topic = f"/turtle{turtle_number}/pose"
 
-    # Subscribe to the dynamic topic with lambda function as a wrapper
-    rospy.Subscriber(turtle_topic, Pose, lambda data: robot_callback(data, robot_name))
+    rospy.loginfo(f"Subscribing to {turtle_topic} for {robot_name}")
+    rospy.Subscriber(turtle_topic, Pose, lambda data: robot_callback(data, robot_name), queue_size=10)
 
-    rate = rospy.Rate(1/api_delay)
+    rate = rospy.Rate(1/api_delay)  # Hz
     while not rospy.is_shutdown():
         rate.sleep()
-
-
 
 if __name__ == '__main__':
     try:
